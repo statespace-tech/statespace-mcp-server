@@ -125,7 +125,7 @@ tools:
 
 Optionally, create a [Statespace account](https://statespace.com/auth/login) to deploy your app and get a shareable URL
 
-Then, simply replace your app's path with this URL: `path/to/app` → `https://demo.statespace.app`
+Then, simply replace your app's path with this URL: path/to/app` → `https://demo.statespace.app`
 
 ### More examples
 
