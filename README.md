@@ -29,7 +29,7 @@
 
 ---
 
-AI doesn't know your data. Statespace helps you quickly wire up the APIs and MCPs your agents need to understand and work with it. Build RAG, text-to-SQL, knowledge bases, and more, in just a few lines of code. Once you’ve created an app, you can deploy, manage, and share it from our [cloud platform](https://statespace.com/).
+AI doesn't know your data. Statespace helps you quickly document your data and connect it to agents through APIs, MCPs, or CLIs. Build RAG, text-to-SQL, knowledge bases, and more, in just a few lines of code. Once you’ve created an app, you can deploy, manage, and share it from our [cloud platform](https://statespace.com/).
 
 ## Example
 
