@@ -11,7 +11,7 @@
 
 <br>
 
-*The simplest way to document and connect AI to your data*
+*Self-documenting AI applications*
 
 [![Test Suite](https://github.com/statespace-tech/statespace/actions/workflows/test.yml/badge.svg)](https://github.com/statespace-tech/statespace/actions/workflows/test.yml)
 [![License](https://img.shields.io/badge/license-MIT-007ec6?style=flat-square)](https://github.com/statespace-tech/statespace/blob/main/LICENSE)
@@ -29,13 +29,27 @@
 
 ---
 
-AI doesn't know your data. Statespace helps you quickly document your data and connect it to agents through APIs, MCPs, or CLIs. Build RAG, text-to-SQL, knowledge bases, and more, in just a few lines of code. Once you’ve created an app, you can deploy, manage, and share it from our [cloud platform](https://statespace.com/).
+AI doesn't know your data. Statespace helps you build self-documenting data applications that describe themselves to agents. Build RAG, text-to-SQL, and knowledge bases that agents can maintain and improve over time. Once you’ve created an app, you can deploy, manage, and share it from our [cloud platform](https://statespace.com/).
+
+## Quickstart
+
+Get up and running with your first app by asking your coding agent:
+
+```bash
+claude "Create a Statespace app: https://statespace.com/AGENTS.md"
+```
 
 ## Example
 
 ### 1. Create it
 
-Create a file `README.md` with:
+Create a new PostgreSQL app with:
+
+```
+statespace init --text-to-sql postgresql://user:pass@host:port/db
+````
+
+This creates an app skeleton with just enough tools and instructions for your agent to explore your database:
 
 ```yaml
 ---
@@ -48,86 +62,67 @@ tools:
 - Translate the user's question into a query that answers it
 ```
 
-### 2. Run it
+### 2. Build it
 
-Configure the MCP server on your client:
+Build your full app by iterating on it with your coding agent:
 
-```json
-"statespace": {
-  "command": "uvx",
-  "args": [
-    "statespace-mcp",
-    "path/to/app/"
-  ],
-  "env": {
-    "DB": "postgresql://user:pass@host:port/db"
-  }
-}
+```
+claude "Document my database's schema and add a script to summarize them"
 ```
 
-Alternatively, install the Statespace CLI and agent skill:
+Your agent will spin up a local server to test your app:
 
 ```bash
-npm install -g statespace 
-
-# run the app locally
-statespace serve path/to/app/ --env DB=postgresql://user:pass@host:port/db --port 8080
+statespace serve .demo/ --port 8000
 ```
 
-
-### 3. Ask it
-
-Ask your MCP-enabled agent directly:
-
-```bash
-claude "How many users do we have?"
-```
-
-Or activate the skill and then ask your agent:
-
-```
-claude "/statespace Use the API at http://127.0.01:8080 to find out how many users we have"
-```
-
-
-### 4. Update it
-
-Add as much context and tools as your application needs
+The result is a self-documenting app that any agent can understand and use:
 
 ```text
-path/to/app/
-├── README.md           # from above
+demo/
+├── README.md         # from above
 ├── script.py
 └── schema/
     ├── users.md
     └── products.md
 ```
 
-Then update `README.md` with new tools and instructions:
+### 3. Ship it
 
-```yaml
----
-tools:
-  - [grep, -r]
-  - [python3, script.py]
-  - [psql, -d, $DB, -c, { regex: "^SELECT\\b.*" }]
----
+Optionally, create a free [Statespace account](https://statespace.com/auth/login) to deploy your app and get a shareable URL:
 
-
-# Instructions
-- Learn the schema by exploring tables, columns, and relationships
-- Translate the user's question into a query that answers it
-- Search through the database's [[./schema]] files with `grep`
-- Run script.py to check the number of active connections
+```bash
+statespace deploy path/to/app/
 ```
 
-### 5. Deploy it
+Then, connect any agent to your app through our API or MCP.
 
-Optionally, create a [Statespace account](https://statespace.com/auth/login) to deploy your app and get a shareable URL
+<details open>
+<summary>API</summary>
 
-Then, simply replace your app's path with this URL: path/to/app` → `https://demo.statespace.app`
+Pass the public URL to your agent:
 
-### More examples
+```bash
+claude "Use the API at https://demo.statespace.app to find out the number of users"
+```
+
+</details>
+
+<details>
+<summary>MCP</summary>
+
+Configure the MCP client:
+
+```json
+"statespace": {
+  "command": "uvx",
+  "args": ["statespace-mcp", "https://demo.statespace.app"]
+}
+```
+</details>
+
+
+### Example skeletons
 
 - **[vectorless rag](examples/vectorless_rag)**
 - **[postgresql](examples/postgresql)**
