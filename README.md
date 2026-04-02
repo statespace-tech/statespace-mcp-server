@@ -40,3 +40,13 @@ For private apps, pass your API token via `STATESPACE_TOKEN`:
 
 - Node.js 18+
 - A deployed Statespace app URL (http or https)
+
+## Community & Contributing
+
+- **Discord**: Join our [community server](https://discord.gg/rRyM7zkZTf) for real-time help and discussions
+- **X**: Follow us [@statespace_tech](https://x.com/statespace_tech) for updates and news
+- **Issues**: Report bugs or request features on [GitHub Issues](https://github.com/statespace-tech/statespace-mcp-server/issues)
+
+## License
+
+This project is licensed under the terms of the MIT license.
