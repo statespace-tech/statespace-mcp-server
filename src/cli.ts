@@ -1,16 +1,23 @@
 #!/usr/bin/env node
-import { startMcpServer } from "./mcp.js";
+import { runSearch } from "./search.js";
+import { runMcp } from "./mcp.js";
 
-const args = process.argv.slice(2);
-const url = args[0] ?? "http://localhost:3000";
+const [sub, ...rest] = process.argv.slice(2);
 
-if (!url.startsWith("http://") && !url.startsWith("https://")) {
-  process.stderr.write("Usage: statespace-mcp [url]\n");
-  process.stderr.write("  url  Base URL of the doc-search API (default: http://localhost:3000)\n");
-  process.exit(1);
+if (sub === "search") {
+  await runSearch(rest);
+} else if (sub === "mcp") {
+  await runMcp(rest);
+} else {
+  const help =
+    "Usage: statespace <command> [options]\n\n" +
+    "Commands:\n" +
+    "  search <query>   Search indexed documentation\n" +
+    "  mcp              Start the MCP server\n\n" +
+    "Run statespace <command> --help for command options.\n";
+  if (sub) {
+    process.stderr.write(`Unknown command: ${sub}\n\n${help}`);
+    process.exit(1);
+  }
+  process.stdout.write(help);
 }
-
-startMcpServer(url).catch((err: unknown) => {
-  process.stderr.write(`Error: ${String(err)}\n`);
-  process.exit(1);
-});
